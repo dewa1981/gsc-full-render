@@ -20,7 +20,7 @@
 <body>
 <header>
   <h1>WRS viewport test</h1>
-  <p>What the renderer's viewport reaches. Run in URL Inspection and read the rendered HTML: the script writes what it saw below, each block says whether it entered the viewport, and Page resources lists which <code>loading="lazy"</code> images were requested (<code>?y=</code> down the page, <code>?x=</code> across the strip). <code>?h=</code> sets how tall the page is, and <code>?fill=text</code> makes it that tall with paragraphs of text instead of empty blocks.</p>
+  <p>What the renderer's viewport reaches. Run in URL Inspection and read the rendered HTML: the script writes what it saw below, each block says whether it entered the viewport, and Page resources lists which <code>loading="lazy"</code> images were requested (<code>?y=</code> down the page, <code>?x=</code> across the strip). <code>?h=</code> sets how tall the page is, and <code>?fill=text</code> makes it that tall with paragraphs of text instead of empty blocks (<code>&amp;cv=auto</code> or <code>&amp;cv=hidden</code> gives that text content-visibility).</p>
   <pre id="viewport">viewport: script did not run</pre>
   <pre id="seen">entered the viewport: none</pre>
   <pre id="log"></pre>
@@ -40,7 +40,9 @@
   const step = Math.max(1000, Math.ceil(height / 200 / 1000) * 1000);
   const marks = document.getElementById('marks');
   // ?fill=text: each block holds as many paragraphs as fill its height, measured on one, instead of
-  // being an empty block that tall.
+  // being an empty block that tall. &cv=auto or &cv=hidden gives them content-visibility at the
+  // height they'd take: hidden ones stay in the DOM but are never laid out or painted.
+  const cv = ['auto', 'hidden'].includes(params.get('cv')) ? params.get('cv') : null;
   let fill = '';
   let blockStyle = ` style="height:${step}px"`;
   if (params.get('fill') === 'text') {
@@ -49,7 +51,9 @@
     marks.insertAdjacentHTML('beforeend', `<div class="mark">${paragraph}</div>`);
     const tall = marks.lastElementChild.firstElementChild.offsetHeight;
     marks.lastElementChild.remove();
-    fill = paragraph.repeat(Math.ceil(step / tall));
+    const count = Math.ceil(step / tall);
+    const textStyle = cv ? ` style="content-visibility:${cv};contain-intrinsic-size:auto ${count * tall}px"` : '';
+    fill = `<div class="text"${textStyle}>${paragraph.repeat(count)}</div>`;
     blockStyle = '';
   }
   for (let y = step; y <= height; y += step) {
