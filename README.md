@@ -87,8 +87,8 @@ The CSV has a column for each.
   sites' responses.
 - Styles, images and fonts are loaded now by your browser, not by Google. If a server serves
   Googlebot something different, or the site has changed since the crawl, the result can differ.
-- Search Console's HTML tab holds only about the first 2.4 MB of the rendered HTML, so on a
-  bigger page the full page ends there too.
+- Search Console's HTML tab holds only the first 100,000 nodes of the rendered HTML (elements
+  and pieces of text), so on a bigger page the full page ends there too.
 
 ## Disclaimer
 
