@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WRS node count test</title>
+<style>body { margin: 0; padding: 12px; font: 15px/1.4 system-ui, sans-serif; color: #202124; }</style>
+</head>
+<body>
+<h1>WRS node count test</h1>
+<p>What counts toward the point where URL Inspection's HTML tab cuts the rendered HTML. The script adds <code>?n=</code> numbered items: empty elements with no text (<code>?kind=empty</code>, the default) or comments, each followed by a short paragraph (<code>?kind=comment</code>). The last number in the HTML tab shows where it was cut.</p>
+<pre id="params">script did not run</pre>
+<div id="items"></div>
+<script>
+  const q = new URLSearchParams(location.search);
+  const n = Math.max(1, Math.min(300000, Number(q.get('n')) || 120000));
+  const comment = q.get('kind') === 'comment';
+  const parts = [];
+  for (let i = 1; i <= n; i++) parts.push(comment ? `<!--c${i}--><p id="p${i}">x</p>` : `<i id="i${i}"></i>`);
+  document.getElementById('items').innerHTML = `${parts.join('')}<p id="end">end of the items</p>`;
+  document.getElementById('params').textContent = `n=${n} kind=${comment ? 'comment' : 'empty'}`;
+</script>
+</body>
+</html>
