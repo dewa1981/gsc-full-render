@@ -24,6 +24,12 @@ describe('installPage', () => {
     expect(store?.textContent).toBe('GSC Full Fetch & Render as Googlebot by Natzir');
   });
 
+  it('links the experiments on how Google renders pages', () => {
+    const doc = new DOMParser().parseFromString(installPage('javascript:void 0'), 'text/html');
+    const link = doc.querySelector('a[href="https://natzir.github.io/gsc-full-render/experiments.html"]');
+    expect(link?.textContent).toBe('how Googlebot renders pages');
+  });
+
   it('says the HTML is Google\'s but the styles and images come from your browser', () => {
     const doc = new DOMParser().parseFromString(installPage('javascript:void 0'), 'text/html');
     const texts = [...doc.querySelectorAll('p')].map(p => p.textContent);

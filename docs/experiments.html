@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Googlebot rendering experiments</title>
+<meta name="description" content="Test pages for how Googlebot renders a page, run in Search Console's URL Inspection: its viewport, the lazy images it loads, and where the rendered HTML stops.">
+<style>
+  body { font: 16px/1.5 Roboto, Arial, sans-serif; color: #202124; background: #fff; max-width: 680px; margin: 48px auto; padding: 0 16px; }
+  h2 { font-size: 18px; margin: 32px 0 4px; }
+  code { background: #f1f3f4; padding: 1px 4px; border-radius: 3px; }
+  ul { padding-left: 20px; }
+  li { margin: 4px 0; }
+</style>
+</head>
+<body>
+<h1>Googlebot rendering experiments</h1>
+<p>Test pages for how Google's renderer loads a page, made for <a href="https://natzir.github.io/gsc-full-render/">GSC Full Fetch &amp; Render</a>. Run one in Search Console's URL Inspection, live or crawled: each page writes what it saw into its own rendered HTML, so the HTML tab of the tested page shows the result.</p>
+
+<h2>The renderer's viewport</h2>
+<p><a href="wrs/">wrs/</a>: how far the viewport reaches down the page and across it, logged as it changes, and which <code>loading="lazy"</code> images Googlebot requests, down the page and along a carousel. <code>?h=</code> sets how tall the page is.</p>
+<ul>
+  <li><a href="wrs/?h=200000">200,000 px tall</a></li>
+  <li><a href="wrs/?h=20000000">20,000,000 px tall</a></li>
+  <li><a href="wrs/?fill=text&amp;h=1000000">1,000,000 px of real text</a> instead of empty blocks, and the same <a href="wrs/?fill=text&amp;h=1000000&amp;cv=hidden">with content-visibility: hidden</a></li>
+</ul>
+
+<h2>How much HTML it keeps</h2>
+<p><a href="wrs/2mb.html">wrs/2mb.html</a>: a 3 MB HTML file with markers of their byte offset, to see how much of it Googlebot reads and URL Inspection shows.</p>
+<p><a href="wrs/size.html">wrs/size.html</a>: a rendered HTML of a set number of paragraphs and kilobytes, of random or repeated words, to see what decides where the HTML tab stops.</p>
+<ul>
+  <li><a href="wrs/size.html?n=200&amp;kb=3000">3 MB in 200 paragraphs</a></li>
+  <li><a href="wrs/size.html?n=50000&amp;kb=3000&amp;words=same">3 MB in 50,000 paragraphs of one word</a></li>
+</ul>
+<p><a href="wrs/nodes.html">wrs/nodes.html</a>: which DOM nodes count toward that point.</p>
+<ul>
+  <li><a href="wrs/nodes.html?kind=empty&amp;n=120000">120,000 empty elements</a></li>
+  <li><a href="wrs/nodes.html?kind=comment&amp;n=60000">60,000 comments, each with a paragraph</a></li>
+</ul>
+<p><a href="wrs/nodes-index.html">wrs/nodes-index.html</a>: a static page of 150,000 DOM nodes with made-up words at known nodes, to see which of them Google indexes.</p>
+
+<p>Source: <a href="https://github.com/natzir/gsc-full-render">github.com/natzir/gsc-full-render</a>.</p>
+</body>
+</html>

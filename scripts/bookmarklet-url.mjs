@@ -32,6 +32,7 @@ export function installPage(bookmarkletUrl) {
 </ol>
 <p>The HTML is the one Google rendered. Its styles, images and fonts are loaded now by your browser, not by Google, so the page can differ from what Google saw.</p>
 <p>Prefer an extension that turns on by itself? Install <a href="https://chromewebstore.google.com/detail/gsc-full-fetch-render-as/ljlijkonoghompcadbfihdjnkbcmbpan">GSC Full Fetch &amp; Render as Googlebot by Natzir</a> from the Chrome Web Store.</p>
+<p>The tests behind it, on <a href="https://natzir.github.io/gsc-full-render/experiments.html">how Googlebot renders pages</a>: its viewport, the lazy images it loads and where URL Inspection stops the HTML.</p>
 </body>
 </html>
 `;
